@@ -1,18 +1,21 @@
 package co.com.mercadolibre.gustavorealpe.mutantesApi.service;
 
+import co.com.mercadolibre.gustavorealpe.mutantesApi.domain.Dna;
 import co.com.mercadolibre.gustavorealpe.mutantesApi.exception.NotMutantFound;
+import co.com.mercadolibre.gustavorealpe.mutantesApi.repository.DnaRepository;
 import co.com.mercadolibre.gustavorealpe.mutantesApi.util.MutantUtil;
 import co.com.mercadolibre.gustavorealpe.mutantesApi.web.DTO.DnaRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DnaService {
 
     @Autowired
     private DnaValidations dnaValidations;
+    @Autowired
+    private DnaRepository repository;
 
     public void process(DnaRequestDTO data) {
         // Normalizar la data
@@ -24,10 +27,19 @@ public class DnaService {
             throw new NotMutantFound();
         }
         // Valida si es Mutante
-        if(!MutantProcessor.isMutant(dna)){
-            dnaValidations.validateMutant(dna);
-        }
+        boolean isMutant = MutantProcessor.isMutant(dna);
+
+        saveInDb(dna, isMutant);
+
+        if (!isMutant)
+            throw new NotMutantFound();
     }
 
-
+    @Transactional
+    private void saveInDb(String[] dna, boolean isMutant) {
+        Dna entity = new Dna();
+        entity.setDna(String.join(",", dna));
+        entity.setMutant(isMutant);
+        repository.save(entity);
+    }
 }

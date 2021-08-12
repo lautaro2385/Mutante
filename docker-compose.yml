@@ -1,0 +1,44 @@
+version: '3'
+services:
+  localstack:
+    image: localstack/localstack:0.8.6
+    ports:
+      - "5669:4569"
+      - "5672:4572"
+      - "5780:8080"
+    environment:
+      - SERVICES=dynamodb
+      - DEBUG=${DEBUG- }
+      - DATA_DIR=${DATA_DIR- }
+      - PORT_WEB_UI=${PORT_WEB_UI- }
+    volumes:
+      - "/tmp/localstack"
+      - "/var/run/docker.sock"
+  dynamo-admin:
+    image: instructure/dynamo-local-admin
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    environment:
+      - DYNAMO_ENDPOINT=http://localstack:4569/
+    depends_on:
+      - localstack
+    links:
+      - localstack
+  aws-cli:
+    image: mesosphere/aws-cli
+    entrypoint: >
+      sh -c "sleep 5 &&
+      aws --endpoint-url=http://localstack:4569 dynamodb
+      --region=us-east-1 create-table
+      --cli-input-json file:///dna.json
+      "
+    environment:
+      - AWS_ACCESS_KEY_ID=id
+      - AWS_SECRET_ACCESS_KEY=key
+    volumes:
+      - ./dna.json:/dna.json
+    depends_on:
+      - localstack
+    links:
+      - localstack

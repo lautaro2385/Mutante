@@ -1,0 +1,17 @@
+{
+	"AttributeDefinitions": [{
+			"AttributeName": "id",
+			"AttributeType": "S"
+		}
+	],
+	"ProvisionedThroughput": {
+		"WriteCapacityUnits": 5,
+		"ReadCapacityUnits": 5
+	},
+	"TableName": "dna",
+	"KeySchema": [{
+			"KeyType": "HASH",
+			"AttributeName": "id"
+		}
+	]
+}
