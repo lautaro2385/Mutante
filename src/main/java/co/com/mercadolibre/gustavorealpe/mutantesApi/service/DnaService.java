@@ -1,7 +1,7 @@
 package co.com.mercadolibre.gustavorealpe.mutantesApi.service;
 
 import co.com.mercadolibre.gustavorealpe.mutantesApi.domain.Dna;
-import co.com.mercadolibre.gustavorealpe.mutantesApi.exception.NotMutantFound;
+import co.com.mercadolibre.gustavorealpe.mutantesApi.exception.NotMutantFoundException;
 import co.com.mercadolibre.gustavorealpe.mutantesApi.repository.DnaRepository;
 import co.com.mercadolibre.gustavorealpe.mutantesApi.util.MutantUtil;
 import co.com.mercadolibre.gustavorealpe.mutantesApi.web.DTO.DnaRequestDTO;
@@ -24,7 +24,8 @@ public class DnaService {
         dnaValidations.validateMutant(dna);
         // Si el dna es menor a 4x4 se considera que no es mutante
         if (dna.length <= 3) {
-            throw new NotMutantFound();
+            saveInDb(dna, false);
+            throw new NotMutantFoundException();
         }
         // Valida si es Mutante
         boolean isMutant = MutantProcessor.isMutant(dna);
@@ -32,7 +33,7 @@ public class DnaService {
         saveInDb(dna, isMutant);
 
         if (!isMutant)
-            throw new NotMutantFound();
+            throw new NotMutantFoundException();
     }
 
     @Transactional

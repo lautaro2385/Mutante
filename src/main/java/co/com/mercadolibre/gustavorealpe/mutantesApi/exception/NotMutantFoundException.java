@@ -3,9 +3,6 @@ package co.com.mercadolibre.gustavorealpe.mutantesApi.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class DnaBadFormat extends RuntimeException {
-    public DnaBadFormat(String msg) {
-        super(msg);
-    }
+@ResponseStatus(HttpStatus.FORBIDDEN)
+public class NotMutantFoundException extends RuntimeException {
 }

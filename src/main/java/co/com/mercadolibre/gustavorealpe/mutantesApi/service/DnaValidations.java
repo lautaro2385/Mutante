@@ -1,7 +1,6 @@
 package co.com.mercadolibre.gustavorealpe.mutantesApi.service;
 
-import co.com.mercadolibre.gustavorealpe.mutantesApi.exception.DnaBadFormat;
-import co.com.mercadolibre.gustavorealpe.mutantesApi.web.DTO.DnaRequestDTO;
+import co.com.mercadolibre.gustavorealpe.mutantesApi.exception.DnaBadFormatException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +29,7 @@ public class DnaValidations {
 
     private final List<Validator> validations;
 
-    private DnaValidations() {
+    protected DnaValidations() {
         validations = new ArrayList<>();
         validations.add(emptyArray);
         validations.add(squareArray);
@@ -40,7 +39,7 @@ public class DnaValidations {
     public void validateMutant(String[] dna) {
         for (Validator validation : validations) {
             if (validation.fnValidator.test(dna)) {
-                throw new DnaBadFormat(validation.Msg);
+                throw new DnaBadFormatException(validation.Msg);
             }
         }
     }
