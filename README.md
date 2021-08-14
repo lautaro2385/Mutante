@@ -1,9 +1,9 @@
 # Mutantes
 
-# Requisitos
+## Requisitos
 - Java 11
 
-#Ejecutar
+## Ejecutar
 
 Para compilar el proyecto se debe ejecutar
 ```
@@ -18,7 +18,7 @@ para subir la infraestructura es necesario levantar el docker compose
 docker-compose up -d
 ```
 
-## Con docker
+### Con docker
 contruir la imagen 
 ```
 docker build . -t mutante
@@ -28,7 +28,7 @@ correr la imagen
 docker run -p 8080:8080 mutante
 ```
 
-# Api
+## Api
 para saber si es un mutante hay que hacer una solicitud `POST` al endpoint `/mutant`
 con un body
 ```json
@@ -43,9 +43,9 @@ con un body
     ]
 }
 ```
-## Aws
+### Aws
 El servicio esta expuesto en `http://52.67.30.20:8080/`.
 Está deplegado en AWS, a través de un ECS, y para soportar la carga se configuro un ALB y un auto-eslamiento.
 
-## Covertura
+### Covertura
 Tiene una cuvertura de mas del 95% del código
