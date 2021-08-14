@@ -4,3 +4,6 @@ aws:
   regionName: ${AWS_REGION:us-east-1}
   accessKey: ${AWS_ACCESSKEY:}
   secretKey: ${AWS_SECRETKEY:}
+spring:
+  main:
+    allow-bean-definition-overriding: true

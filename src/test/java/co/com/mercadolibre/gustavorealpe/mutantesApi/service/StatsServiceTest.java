@@ -26,4 +26,14 @@ class StatsServiceTest {
 
         assertEquals(stats.getRatio(), 0.4);
     }
+
+    @Test
+    public void Should_ReturnRatioZero_When_HumanIsZero() {
+        given(repository.countByMutant(true)).willReturn(0L);
+        given(repository.countByMutant(false)).willReturn(0L);
+
+        StatsDTO stats = statsService.stats();
+
+        assertEquals(stats.getRatio(), 0);
+    }
 }

@@ -13,7 +13,9 @@ public class StatsService {
     public StatsDTO stats() {
         final long countMutant = repository.countByMutant(true);
         final long countHuman = repository.countByMutant(false);
-        double ratio = countMutant / (double)countHuman;
+        double ratio = 0;
+        if (countHuman != 0)
+            ratio = countMutant / (double) countHuman;
 
         return new StatsDTO(countMutant, countHuman, ratio);
     }
