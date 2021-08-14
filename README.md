@@ -1,4 +1,5 @@
 # Mutantes
+Magneto quiere reclutar la mayor cantidad de mutantes para poder luchar contra los X-Men. Para esto, se expone una Api en donde, a través del Dna, se puede identificar si pertenece a un Humano o a un Mutante.
 
 ## Requisitos
 - Java 11
